@@ -1,24 +1,40 @@
-import * as React from 'react';
+import { FormEvent, FC, useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
+import { IPayload, signin } from '../../redux/auth/operations';
+import { useAppDispatch } from '../../app/hooks';
+import { toast } from 'react-toastify';
 
-export default function SignIn() {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+const SignIn: FC = () => {
+  const dispatch = useAppDispatch();
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+
+    const payload: Omit<IPayload, 'firstName'> = {
+      email,
+      password,
+    };
+
+    const result = await dispatch(signin(payload));
+
+    if (result.payload.statusCode) {
+      toast.error(result.payload.message);
+      return;
+    }
+
+    setEmail('');
+    setPassword('');
   };
 
   return (
@@ -44,6 +60,8 @@ export default function SignIn() {
           sx={{ mt: 1 }}
         >
           <TextField
+            onChange={(e) => setEmail(e.target.value)}
+            value={email}
             margin="normal"
             required
             fullWidth
@@ -54,6 +72,8 @@ export default function SignIn() {
             autoFocus
           />
           <TextField
+            onChange={(e) => setPassword(e.target.value)}
+            value={password}
             margin="normal"
             required
             fullWidth
@@ -63,10 +83,7 @@ export default function SignIn() {
             id="password"
             autoComplete="current-password"
           />
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
-          />
+
           <Button
             type="submit"
             fullWidth
@@ -77,12 +94,18 @@ export default function SignIn() {
           </Button>
           <Grid container>
             <Grid item xs>
-              <Link href="#" variant="body2">
+              <Link
+                href="#"
+                variant="body2"
+                onClick={() =>
+                  alert('This function is not available for now')
+                }
+              >
                 Forgot password?
               </Link>
             </Grid>
             <Grid item>
-              <Link href="#" variant="body2">
+              <Link href="/signup" variant="body2">
                 {"Don't have an account? Sign Up"}
               </Link>
             </Grid>
@@ -91,4 +114,6 @@ export default function SignIn() {
       </Box>
     </Container>
   );
-}
+};
+
+export default SignIn;

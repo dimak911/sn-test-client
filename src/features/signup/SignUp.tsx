@@ -1,24 +1,50 @@
-import * as React from 'react';
+import { FormEvent, FC, useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { selectIsLoggedIn } from '../../redux/auth/selectors';
+import { IPayload, signup } from '../../redux/auth/operations';
+import { toast } from 'react-toastify';
 
-export default function SignUp() {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+const SignUp: FC = () => {
+  const isLoggedIn = useAppSelector(selectIsLoggedIn);
+  const dispatch = useAppDispatch();
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+
+    const payload: IPayload = {
+      email,
+      password,
+      firstName,
+      lastName,
+    };
+
+    const result = await dispatch(signup(payload));
+
+    if (result.meta.requestStatus === 'rejected') {
+      toast.error(result.payload.join(', '));
+      return;
+    }
+
+    toast.success(result.payload.message);
+
+    setFirstName('');
+    setLastName('');
+    setEmail('');
+    setPassword('');
   };
 
   return (
@@ -46,6 +72,8 @@ export default function SignUp() {
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
+                onChange={(e) => setFirstName(e.target.value)}
+                value={firstName}
                 autoComplete="given-name"
                 name="firstName"
                 required
@@ -57,7 +85,8 @@ export default function SignUp() {
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
-                required
+                onChange={(e) => setLastName(e.target.value)}
+                value={lastName}
                 fullWidth
                 id="lastName"
                 label="Last Name"
@@ -67,6 +96,8 @@ export default function SignUp() {
             </Grid>
             <Grid item xs={12}>
               <TextField
+                onChange={(e) => setEmail(e.target.value)}
+                value={email}
                 required
                 fullWidth
                 id="email"
@@ -77,6 +108,8 @@ export default function SignUp() {
             </Grid>
             <Grid item xs={12}>
               <TextField
+                onChange={(e) => setPassword(e.target.value)}
+                value={password}
                 required
                 fullWidth
                 name="password"
@@ -84,17 +117,6 @@ export default function SignUp() {
                 type="password"
                 id="password"
                 autoComplete="new-password"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    value="allowExtraEmails"
-                    color="primary"
-                  />
-                }
-                label="I want to receive inspiration, marketing promotions and updates via email."
               />
             </Grid>
           </Grid>
@@ -108,7 +130,7 @@ export default function SignUp() {
           </Button>
           <Grid container justifyContent="flex-end">
             <Grid item>
-              <Link href="#" variant="body2">
+              <Link href="/signin" variant="body2">
                 Already have an account? Sign in
               </Link>
             </Grid>
@@ -117,4 +139,6 @@ export default function SignUp() {
       </Box>
     </Container>
   );
-}
+};
+
+export default SignUp;

@@ -1,3 +1,4 @@
+import { FC } from 'react';
 import { Global, css } from '@emotion/react';
 import 'modern-normalize';
 import '@fontsource/roboto/300.css';
@@ -5,7 +6,7 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 
-export const GlobalStyle = () => (
+export const GlobalStyle: FC = () => (
   <Global
     styles={css`
       body {
