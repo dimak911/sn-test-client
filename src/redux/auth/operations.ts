@@ -12,7 +12,7 @@ export const signup = createAsyncThunk(
   'auth/signup',
   async (credentials: IPayload, { rejectWithValue }) => {
     try {
-      const { data } = await $api.post('/auth/signup', credentials);
+      const { data } = await $api.post('/user/signup', credentials);
 
       return data;
     } catch (error: any) {
