@@ -8,7 +8,10 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { IPayload, signin } from '../../redux/auth/operations';
+import {
+  ICreateUserPayload,
+  signin,
+} from '../../redux/auth/operations';
 import { useAppDispatch } from '../../app/hooks';
 import { toast } from 'react-toastify';
 
@@ -21,7 +24,7 @@ const SignIn: FC = () => {
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const payload: Omit<IPayload, 'firstName'> = {
+    const payload: Omit<ICreateUserPayload, 'firstName'> = {
       email,
       password,
     };

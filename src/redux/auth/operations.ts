@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import $api from '../../http';
 
-export interface IPayload {
+export interface ICreateUserPayload {
   email: string;
   password: string;
   firstName: string;
@@ -10,7 +10,7 @@ export interface IPayload {
 
 export const signup = createAsyncThunk(
   'auth/signup',
-  async (credentials: IPayload, { rejectWithValue }) => {
+  async (credentials: ICreateUserPayload, { rejectWithValue }) => {
     try {
       const { data } = await $api.post('/user/signup', credentials);
 
@@ -24,7 +24,7 @@ export const signup = createAsyncThunk(
 export const signin = createAsyncThunk(
   'auth/signin',
   async (
-    credentials: Omit<IPayload, 'firstName'>,
+    credentials: Omit<ICreateUserPayload, 'firstName'>,
     { rejectWithValue }
   ) => {
     try {
@@ -37,7 +37,7 @@ export const signin = createAsyncThunk(
   }
 );
 
-export const verify = createAsyncThunk(
+export const verifyEmailToken = createAsyncThunk(
   'auth/verify',
   async (token: string, { rejectWithValue }) => {
     try {
@@ -55,19 +55,6 @@ export const logout = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       await $api.post(`/auth/logout`);
-    } catch (error: any) {
-      return rejectWithValue(error.response.data);
-    }
-  }
-);
-
-export const getProfileById = createAsyncThunk(
-  'profile/getProfileById',
-  async (id: string, { rejectWithValue }) => {
-    try {
-      const { data } = await $api.get(`/profile/${id}`);
-
-      return data;
     } catch (error: any) {
       return rejectWithValue(error.response.data);
     }

@@ -8,13 +8,14 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { selectIsLoggedIn } from '../../redux/auth/selectors';
-import { IPayload, signup } from '../../redux/auth/operations';
+import { useAppDispatch } from '../../app/hooks';
+import {
+  ICreateUserPayload,
+  signup,
+} from '../../redux/auth/operations';
 import { toast } from 'react-toastify';
 
 const SignUp: FC = () => {
-  const isLoggedIn = useAppSelector(selectIsLoggedIn);
   const dispatch = useAppDispatch();
 
   const [email, setEmail] = useState('');
@@ -25,7 +26,7 @@ const SignUp: FC = () => {
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const payload: IPayload = {
+    const payload: ICreateUserPayload = {
       email,
       password,
       firstName,

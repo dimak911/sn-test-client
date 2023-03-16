@@ -13,7 +13,7 @@ export const PrivateRoute: FC<PrivateRouteProps> = ({
   redirectTo = '/',
 }) => {
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
-  console.log('isLoggedIn: ', isLoggedIn);
   const shouldRedirect = !isLoggedIn;
+
   return shouldRedirect ? <Navigate to={redirectTo} /> : Component;
 };

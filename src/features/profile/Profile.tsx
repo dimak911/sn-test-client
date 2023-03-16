@@ -1,35 +1,46 @@
 import { FC, useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-import { useAppDispatch } from '../../app/hooks';
-import { useParams } from 'react-router-dom';
-import { getProfileById } from '../../redux/auth/operations';
+import Stack from '@mui/material/Stack';
+import Grid from '@mui/material/Grid';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { UserProfile } from '../../components/UserProfile/UserProfile';
+import { UserProfileDetails } from '../../components/UserProfileDetails/UserProfileDetails';
+import { selectProfile } from '../../redux/profile/selectors';
+import { getUserProfile } from '../../redux/profile/operations';
 
 const Profile: FC = () => {
+  const profile = useAppSelector(selectProfile);
   const dispatch = useAppDispatch();
-  const { id } = useParams();
-  const [profile, setProfile] = useState('');
 
   useEffect(() => {
-    if (id) {
-      dispatch(getProfileById(id)).then((data) => {
-        setProfile(data.payload);
-      });
-    }
-  }, [id]);
+    dispatch(getUserProfile());
+  }, []);
   return (
-    <Container component="main" maxWidth="xs">
+    <>
       <Box
+        component="main"
         sx={{
-          marginTop: 8,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
+          flexGrow: 1,
+          py: 8,
         }}
       >
-        <p>{profile}</p>
+        <Container maxWidth="lg">
+          <Stack spacing={3}>
+            <div>
+              <Grid container spacing={3}>
+                <Grid item xs={12} md={6} lg={4}>
+                  <UserProfile profile={profile} />
+                </Grid>
+                <Grid item xs={12} md={6} lg={8}>
+                  <UserProfileDetails profile={profile} />
+                </Grid>
+              </Grid>
+            </div>
+          </Stack>
+        </Container>
       </Box>
-    </Container>
+    </>
   );
 };
 

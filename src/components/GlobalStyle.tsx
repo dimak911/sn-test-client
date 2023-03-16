@@ -16,6 +16,7 @@ export const GlobalStyle: FC = () => (
           'Droid Sans', 'Helvetica Neue', sans-serif;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
+        background-color: aliceblue;
       }
       code {
         font-family: source-code-pro, Menlo, Monaco, Consolas,
@@ -34,6 +35,10 @@ export const GlobalStyle: FC = () => (
         list-style: none;
         padding: 0;
         margin: 0;
+      }
+      ,
+      label {
+        color: rgba(0, 0, 0, 0.6);
       }
     `}
   />
