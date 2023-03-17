@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Stack from '@mui/material/Stack';
@@ -8,6 +8,11 @@ import { UserProfile } from '../../components/UserProfile/UserProfile';
 import { UserProfileDetails } from '../../components/UserProfileDetails/UserProfileDetails';
 import { selectProfile } from '../../redux/profile/selectors';
 import { getUserProfile } from '../../redux/profile/operations';
+import { ProfileSliceState } from '../../redux/profile/slice';
+
+export type UserProfileProps = {
+  profile: ProfileSliceState;
+};
 
 const Profile: FC = () => {
   const profile = useAppSelector(selectProfile);

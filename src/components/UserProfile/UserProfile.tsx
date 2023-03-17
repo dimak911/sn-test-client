@@ -1,3 +1,4 @@
+import { FC } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -6,13 +7,9 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
-import { ProfileSliceState } from '../../redux/profile/slice';
+import { UserProfileProps } from '../../features/profile/Profile';
 
-export const UserProfile = ({
-  profile,
-}: {
-  profile: ProfileSliceState;
-}) => (
+export const UserProfile: FC<UserProfileProps> = ({ profile }) => (
   <Card>
     <CardContent>
       <Box
@@ -23,7 +20,7 @@ export const UserProfile = ({
         }}
       >
         <Avatar
-          src={profile.avatar}
+          src={`${profile.avatar}`}
           sx={{
             height: 80,
             mb: 2,
@@ -31,7 +28,7 @@ export const UserProfile = ({
           }}
         />
         <Typography gutterBottom variant="h5">
-          {`${profile.firstName} ${profile.lastName}`}
+          {`${profile.firstName ?? ''} ${profile.lastName ?? ''}`}
         </Typography>
       </Box>
     </CardContent>

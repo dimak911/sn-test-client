@@ -40,7 +40,10 @@ const SignUp: FC = () => {
       return;
     }
 
-    toast.success(result.payload.message);
+    toast.success(result.payload.message, {
+      position: 'top-center',
+      autoClose: 5000,
+    });
 
     setFirstName('');
     setLastName('');

@@ -1,10 +1,12 @@
 import {
   ChangeEvent,
+  FC,
   FormEvent,
   useCallback,
   useEffect,
   useState,
 } from 'react';
+import { toast } from 'react-toastify';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
@@ -18,20 +20,14 @@ import { ProfileSliceState } from '../../redux/profile/slice';
 import { useAppDispatch } from '../../app/hooks';
 import { updateUserProfile } from '../../redux/profile/operations';
 import { TextareaAutosizeStyled } from './UserProfileDetails.styled';
-import { toast } from 'react-toastify';
+import { UserProfileProps } from '../../features/profile/Profile';
 
-export const UserProfileDetails = ({
+export const UserProfileDetails: FC<UserProfileProps> = ({
   profile,
-}: {
-  profile: ProfileSliceState;
 }) => {
   const dispatch = useAppDispatch();
   const [values, setValues] = useState<ProfileSliceState>({
-    id: 0,
-    firstName: '',
-    lastName: '',
-    description: '',
-    avatar: '',
+    ...profile,
   });
 
   useEffect(() => {
@@ -50,6 +46,7 @@ export const UserProfileDetails = ({
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
     await dispatch(updateUserProfile(values));
     toast.success('Profile successfully updated');
   };
@@ -72,7 +69,7 @@ export const UserProfileDetails = ({
                   name="firstName"
                   onChange={handleChange}
                   required
-                  value={values.firstName}
+                  value={values.firstName ?? ''}
                 />
               </Grid>
               <Grid xs={12} md={6}>
@@ -81,7 +78,7 @@ export const UserProfileDetails = ({
                   label="Last name"
                   name="lastName"
                   onChange={handleChange}
-                  value={values.lastName}
+                  value={values.lastName ?? ''}
                 />
               </Grid>
               <Grid xs={12} md={12}>
@@ -90,7 +87,7 @@ export const UserProfileDetails = ({
                   id="description"
                   name="description"
                   onChange={handleChange}
-                  value={values.description}
+                  value={values.description ?? ''}
                   minRows={4}
                   maxRows={4}
                   style={{ width: '100%' }}

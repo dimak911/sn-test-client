@@ -69,7 +69,7 @@ const SharedLayout: FC = () => {
         </Suspense>
       </Container>
       <GlobalStyle />
-      <ToastContainer autoClose={5000} />
+      <ToastContainer autoClose={2000} />
     </Box>
   );
 };

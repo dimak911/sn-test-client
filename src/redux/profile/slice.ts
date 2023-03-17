@@ -3,19 +3,19 @@ import { getUserProfile, updateUserProfile } from './operations';
 import { logout } from '../auth/operations';
 
 export interface ProfileSliceState {
-  id: number;
-  firstName: string;
-  lastName: string;
-  avatar: string;
-  description: string;
+  id: number | null;
+  firstName: string | null;
+  lastName: string | null;
+  avatar: string | null;
+  description: string | null;
 }
 
 const initialState: ProfileSliceState = {
-  id: 0,
-  firstName: '',
-  lastName: '',
-  avatar: '',
-  description: '',
+  id: null,
+  firstName: null,
+  lastName: null,
+  avatar: null,
+  description: null,
 };
 
 const profileSlice = createSlice({
