@@ -17,8 +17,6 @@ const SharedLayout: FC = () => {
   const dispatch = useAppDispatch();
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
 
-  const profileId = 2;
-
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -36,7 +34,7 @@ const SharedLayout: FC = () => {
                     justifyContent: 'space-between',
                   }}
                 >
-                  <Link to={`/profile/${profileId}`}>Profile</Link>
+                  <Link to="/profile">Profile</Link>
                   <Button
                     type="submit"
                     color="error"
@@ -71,7 +69,7 @@ const SharedLayout: FC = () => {
         </Suspense>
       </Container>
       <GlobalStyle />
-      <ToastContainer autoClose={5000} />
+      <ToastContainer autoClose={2000} />
     </Box>
   );
 };

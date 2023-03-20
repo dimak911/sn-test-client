@@ -15,7 +15,6 @@ const ProfilePage = lazy(() => import('./pages/ProfilePage'));
 
 const App: FC = () => {
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
-  const profileId = 2;
 
   return (
     <>
@@ -27,7 +26,7 @@ const App: FC = () => {
             path="/signin"
             element={
               <RestrictedRoute
-                redirectTo={`/profile/${profileId}`}
+                redirectTo="/profile"
                 component={<SignInPage />}
               />
             }
@@ -37,7 +36,7 @@ const App: FC = () => {
             element={
               isLoggedIn ? (
                 <RestrictedRoute
-                  redirectTo={`/profile/${profileId}`}
+                  redirectTo="/profile"
                   component={<SignUpPage />}
                 />
               ) : (
@@ -51,7 +50,7 @@ const App: FC = () => {
             element={<EmailVerifyPage />}
           />
           <Route
-            path="/profile/:id"
+            path="/profile"
             element={
               <PrivateRoute
                 redirectTo="/signin"

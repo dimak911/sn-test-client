@@ -1,14 +1,9 @@
+import { createSlice, SliceCaseReducers } from '@reduxjs/toolkit';
 import {
-  createAction,
-  createSlice,
-  SliceCaseReducers,
-} from '@reduxjs/toolkit';
-import {
-  getProfileById,
   logout,
   signin,
   signup,
-  verify,
+  verifyEmailToken,
 } from './operations';
 
 export interface SliceState {
@@ -29,28 +24,25 @@ const authSlice = createSlice({
   reducers: {} as SliceCaseReducers<SliceState>,
   extraReducers: (builder) => {
     builder
-      .addCase(signup.fulfilled, (state, action) => {
+      .addCase(signup.fulfilled, (state) => {
         return state;
       })
-      .addCase(signup.rejected, (state, action) => {
+      .addCase(signup.rejected, (state) => {
         state.isLoggedIn = false;
         state.isActivated = false;
         state.isLoggedOut = true;
       })
-      .addCase(signin.fulfilled, (state, action) => {
+      .addCase(signin.fulfilled, (state) => {
         state.isLoggedOut = false;
         state.isLoggedIn = true;
       })
-      .addCase(verify.fulfilled, (state, action) => {
+      .addCase(verifyEmailToken.fulfilled, (state) => {
         state.isActivated = true;
       })
-      .addCase(verify.rejected, (state, action) => {
+      .addCase(verifyEmailToken.rejected, (state) => {
         state.isActivated = false;
       })
-      .addCase(getProfileById.fulfilled, (state, action) => {
-        console.log(action.payload);
-      })
-      .addCase(logout.fulfilled, (state, action) => {
+      .addCase(logout.fulfilled, (state) => {
         state.isLoggedOut = true;
         state.isLoggedIn = false;
       });
