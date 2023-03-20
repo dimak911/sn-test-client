@@ -14,16 +14,15 @@ import { toast } from 'react-toastify';
 
 export const UserProfile: FC<UserProfileProps> = ({ profile }) => {
   const dispatch = useAppDispatch();
-  const [file, setFile] = useState<File>();
+  const [file, setFile] = useState<File | null>(null);
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      setFile(e.target.files[0]);
-    }
+    const file = e.target.files?.[0];
+    if (file != null) setFile(file);
   };
 
   const handleUploadClick = async () => {
-    if (!file) return;
+    if (file == null) return;
 
     const result = await dispatch(updateUserProfileAvatar(file));
 
@@ -53,7 +52,9 @@ export const UserProfile: FC<UserProfileProps> = ({ profile }) => {
             }}
           />
           <Typography gutterBottom variant="h5">
-            {`${profile.firstName ?? ''} ${profile.lastName ?? ''}`}
+            {[profile.firstName, profile.lastName]
+              .filter(Boolean)
+              .join(' ')}
           </Typography>
         </Box>
       </CardContent>
