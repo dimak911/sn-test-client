@@ -1,4 +1,3 @@
-// import { SliceState } from './slice';
 import { RootState } from '../../app/store';
 
 export const selectIsLoggedIn = (state: RootState) =>

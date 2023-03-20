@@ -2,7 +2,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
-import { verify } from '../redux/auth/operations';
+import { verifyEmailToken } from '../redux/auth/operations';
 import { selectIsActivated } from '../redux/auth/selectors';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
@@ -26,7 +26,7 @@ const EmailVerifyPage = () => {
       throw new Error('Token is missing');
     }
 
-    dispatch(verify(token))
+    dispatch(verifyEmailToken(token))
       .then((res) => {
         if (res.payload.statusCode) {
           toast.error(res.payload.message);

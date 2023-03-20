@@ -17,20 +17,22 @@ import {
 } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import { authReducer } from '../redux/auth/slice';
+import { profileReducer } from '../redux/profile/slice';
 
-const authPersistConfig = {
-  key: 'auth',
+const persistConfig = {
+  key: 'root',
   storage,
 };
 
 const rootReducer = combineReducers({
   auth: authReducer,
+  profile: profileReducer,
 });
 
 export type RootReducer = ReturnType<typeof rootReducer>;
 
 const persistedReducer = persistReducer<RootReducer, AnyAction>(
-  authPersistConfig,
+  persistConfig,
   rootReducer
 );
 
