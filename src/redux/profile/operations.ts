@@ -27,3 +27,24 @@ export const updateUserProfile = createAsyncThunk(
     }
   }
 );
+
+export const updateUserProfileAvatar = createAsyncThunk(
+  'profile/updateUserProfileAvatar',
+  async (file: File, { rejectWithValue }) => {
+    try {
+      const { data } = await $api.post(
+        '/profile/avatar',
+        { file },
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        }
+      );
+
+      return data;
+    } catch (error: any) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);

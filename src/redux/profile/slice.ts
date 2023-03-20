@@ -1,12 +1,16 @@
 import { createSlice, SliceCaseReducers } from '@reduxjs/toolkit';
-import { getUserProfile, updateUserProfile } from './operations';
+import {
+  getUserProfile,
+  updateUserProfile,
+  updateUserProfileAvatar,
+} from './operations';
 import { logout } from '../auth/operations';
 
 export interface ProfileSliceState {
   id: number | null;
   firstName: string | null;
   lastName: string | null;
-  avatar: string | null;
+  avatar: { id: number; url: string; type: 'image' | 'video' } | null;
   description: string | null;
 }
 
@@ -44,7 +48,13 @@ const profileSlice = createSlice({
         state.lastName = payload.lastName;
         state.avatar = payload.avatar;
         state.description = payload.description;
-      });
+      })
+      .addCase(
+        updateUserProfileAvatar.fulfilled,
+        (state, { payload }) => {
+          state.avatar = payload.avatar;
+        }
+      );
   },
 });
 
